@@ -1,4 +1,19 @@
+body{
+    background-color: rgb(100, 110, 93);
+}
 
-.nav{
-    background-color: red;
+.html_body{
+    
+    padding: 30px 30px 30px 30px;
+    background-color: white;
+    min-height: 83.35vh;
+}
+
+.navbar{
+    background-color: rgb(202, 214, 204) !important;
+    height: 80px;
+}
+
+.jumbotron{
+    margin: 50px 70px 50px 70px;
 }

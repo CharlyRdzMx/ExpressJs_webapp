@@ -1,0 +1,29 @@
+{{#if err}}
+    <div class="alert alert-warning">
+        {{err}}
+    </div>
+{{/if}}
+
+<div class="margin-top">
+    <table class="table table-striped">
+        <thead class="thead-light">
+            <tr>
+                <th>Nombre</th>
+                <th>Tipo de alimento</th>
+                <th>Hora</th>
+                <th>Lugar</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each fileRows}}
+                <tr>
+                    <td>{{_name}}</td>
+                    <td>{{_kindfood}}</td>
+                    <td>{{_hour}}</td>
+                    <td>{{_location}}</td>
+                </tr>
+            {{/each}}
+        </tbody>
+        
+    </table>
+</div>

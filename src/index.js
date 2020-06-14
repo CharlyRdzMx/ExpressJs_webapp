@@ -20,12 +20,7 @@ app.set('view engine', '.hbs');
 
 // Middlewares **********************************************************************
 
-app.use(function(req, res, next) {
-    next();
-});
-
-// 
-// app.use(express.static(path.join(__dirname, '/public')));
+app.use(express.static(path.join(__dirname, '/public')));
 
 // Rutas ****************************************************************************
 const route_web = require('./routes/routes_web');

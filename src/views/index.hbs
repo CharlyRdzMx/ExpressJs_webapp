@@ -1,56 +1,29 @@
 
-<ul class="nav justify-content-end">
-    <li class="nav-item">
-        <a class="btn btn-default" href="/" data-toggle="modal" data-target="#modalFileLoadMenu"><i class="fas fa-upload"></i> Cargar archivo</a>        
-    </li>
-</ul>
 
+<div class="nav justify-content-center">
+    <div class="jumbotron">
+        <h2>Bienvenido!</h2>
+        <p class="lead">
+            Para cargar el horario del menú, presione el botón "Elegir archivo", para posteriormente seleccionar el archivo del horario. A continuación oprima el botón "Cargar" para guardar el archivo en el servidor.
+        </p>
+    </div>
 
-<div class="margin-top">
-    <table class="table table-striped">
-        <thead class="thead-light">
-            <tr>
-                <th>Nombre</th>
-                <th>Tipo de alimento</th>
-                <th>Hora</th>
-                <th>Lugar</th>
-            </tr>
-        </thead>
-        <tbody>
-            {{#each fileRows}}
-                <tr>
-                    <td>{{_name}}</td>
-                    <td>{{_kindfood}}</td>
-                    <td>{{_hour}}</td>
-                    <td>{{_location}}</td>
-                </tr>
-            {{/each}}
-        </tbody>
-        
-    </table>
-</div>
-
-
-<div class="modal fade" id="modalFileLoadMenu">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4>Cargar menú</h4>
-            </div>
-            <div class="modal-body">
-
-                <form action="/loadfile" method="post" enctype="multipart/form-data">
-                    <div class="form-group">
-                        <label for="file">Seleccione el archivo de formato CSV: </label>
-                        <input name="file" type="file" class="form-control-file">
-                    </div>
-                    <button type="submit" class="btn btn-success">Cargar archivo</button>
-                </form>
-
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-            </div>
+    <div class="card">
+        <div class="card-body">
+            <form action="/loadfile" method="post" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label for="file">Seleccione el archivo de formato CSV: </label>
+                    <input name="file" type="file" class="form-control-file">
+                </div>
+                <div class="d-flex justify-content-center">
+                    <button type="submit" class="btn btn-success"><i class="fas fa-upload"></i> Cargar archivo</button>
+                </div>
+            </form>
+            {{#if err}}
+                <div  class="alert alert-danger" role="alert">
+                    {{err}}
+                </div>
+            {{/if}}
         </div>
     </div>
 </div>

@@ -4,17 +4,18 @@ const router = express.Router();
 const path = require('path');
 
 const multer = require('multer');
-const upload = multer({ dest: './public/temp/' });
+const upload = multer({ dest: process.env.PATH_TEMP_FILES });
+
 const csv = require('fast-csv');
 const fs = require('fs');
 
-router.get('/list', async (req, res) => {
+router.get('/schedule', async (req, res) => {
 
-    if (!fs.existsSync(path.join(process.env.PATH_TEMP_FILES, 'menu.csv'))) {
-        res.render('index');
-    } else {
+    const file_path = path.join(process.env.PATH_TEMP_FILES, 'file_menu.csv');
+
+    if (fs.existsSync(file_path)) {
         const fileRows = [];
-        csv.parseFile(path.join(process.env.PATH_TEMP_FILES, 'menu.csv'))
+        csv.parseFile(file_path)
         .on('data', function(row) {
             const item = {
                 _name: row[0],
@@ -25,23 +26,24 @@ router.get('/list', async (req, res) => {
             fileRows.push(item);
         })
         .on('end', function (){
+            fileRows.shift();
             res.status(200).json(fileRows);
         });
+    } else {
+        res.status(204);
     }
-
 });
 
 router.post('/loadfile', upload.single('file'), (req, res) => {
     const fileRows = [];
-    
     csv.parseFile(req.file.path)
     .on('data', function(row){
         fileRows.push(row);
     })
     .on('end', function(){
         fs.unlinkSync(req.file.path);
-        csv.writeToPath(path.join(process.env.PATH_TEMP_FILES, 'menu.csv'), fileRows)
-        res.redirect('/');
+        csv.writeToPath(path.join(process.env.PATH_TEMP_FILES, 'file_menu.csv'), fileRows)
+        res.status(200).json('El archivo ha sido cargado con éxito.');
     });
 });
 

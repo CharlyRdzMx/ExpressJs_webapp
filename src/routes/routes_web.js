@@ -4,17 +4,34 @@ const router = express.Router();
 const path = require('path');
 
 const multer = require('multer');
-const upload = multer({ dest: './public/temp/' });
+const upload = multer({ dest: process.env.PATH_TEMP_FILES });
 const csv = require('fast-csv');
 const fs = require('fs');
 
 router.get('/', async (req, res) => {
+    res.render('index');
+});
 
-    if (!fs.existsSync(path.join(process.env.PATH_TEMP_FILES, 'menu.csv'))) {
-        res.render('index');
+router.post('/loadfile', upload.single('file'), (req, res) => {
+    if (!req.file) {
+        const err = 'Debe seleccionar un archivo válido.';
+        res.render('index', { err });
+    }
+    else if (path.extname(req.file.originalname) !== '.csv') {
+        const err = 'El archivo no es de formato CSV.';
+        res.render('index', { err });
     } else {
-        const fileRows = [];
-        csv.parseFile(path.join(process.env.PATH_TEMP_FILES, 'menu.csv'))
+        fs.renameSync(req.file.path, path.join(process.env.PATH_TEMP_FILES, 'file_menu.csv'));
+        res.redirect('/schedule');
+    }
+});
+
+router.get('/schedule', async (req, res) => {
+    const fileRows = [];
+    const file_path = path.join(process.env.PATH_TEMP_FILES, 'file_menu.csv');
+
+    if (fs.existsSync(file_path)) {    
+        csv.parseFile(file_path)
         .on('data', function(row) {
             const item = {
                 _name: row[0],
@@ -25,24 +42,13 @@ router.get('/', async (req, res) => {
             fileRows.push(item);
         })
         .on('end', function (){
-            res.render('index', { fileRows });
+            fileRows.shift();
+            res.render('schedule', { fileRows });
         });
+    } else {
+        const err = 'No hay información disponible.';
+        res.render('schedule', { err });
     }
-
-});
-
-router.post('/loadfile', upload.single('file'), (req, res) => {
-    const fileRows = [];
-    
-    csv.parseFile(req.file.path)
-    .on('data', function(row){
-        fileRows.push(row);
-    })
-    .on('end', function(){
-        fs.unlinkSync(req.file.path);
-        csv.writeToPath(path.join(process.env.PATH_TEMP_FILES, 'menu.csv'), fileRows)
-        res.redirect('/');
-    });
 });
 
 module.exports = router;
