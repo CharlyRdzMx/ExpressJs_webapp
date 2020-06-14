@@ -1,0 +1,5 @@
+# ExpressJs
+node_modules/
+
+# Temporales
+src/public/temp
