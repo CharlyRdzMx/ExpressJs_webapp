@@ -13,3 +13,6 @@ Este es una Webapp desarrollado con NodeJs y Express JS con propósitos ilustrat
 4. Una vez que haya terminado la instalación de las librerías, capture el comando "npm run start".
 5. La terminal indicará que la aplicación web inició en el puerto 3000, para corroborarlo, abra su explorador de internet y capture en la barra de direcciones "http://localhost:3000". Esto le deberá mostrar la página de inicio.
 
+## Wiki
+
+Visita la sección de wiki para obtener más detalle del proyecto.
