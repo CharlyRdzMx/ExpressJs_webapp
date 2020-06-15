@@ -9,6 +9,11 @@ const upload = multer({ dest: process.env.PATH_TEMP_FILES });
 const csv = require('fast-csv');
 const fs = require('fs');
 
+/**
+ * Metodo:      schedule
+ * Ruta:        /api/schedule
+ * Descripcion: Obtiene la información del archivo cargado previamente y devuelve la información en formato JSON.
+ */
 router.get('/schedule', async (req, res) => {
 
     const file_path = path.join(process.env.PATH_TEMP_FILES, 'file_menu.csv');
@@ -34,6 +39,11 @@ router.get('/schedule', async (req, res) => {
     }
 });
 
+/**
+ * Metodo:      loadfile
+ * Ruta:        /api/loadfile
+ * Descripcion: Recibe el archivo enviado por el usuario, el método renombra el archivo y lo almacena en una carpeta temporal.
+ */
 router.post('/loadfile', upload.single('file'), (req, res) => {
     const fileRows = [];
     csv.parseFile(req.file.path)

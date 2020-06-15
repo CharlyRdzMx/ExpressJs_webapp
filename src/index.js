@@ -7,7 +7,8 @@ require("dotenv/config");
 
 const app = express();
 
-// Configuración del sitio
+// Configuración del sitio ***********************************************************
+
 app.set('views', path.join(__dirname, 'views'));
 
 app.engine('.hbs', expresshbs({
@@ -20,9 +21,12 @@ app.set('view engine', '.hbs');
 
 // Middlewares **********************************************************************
 
+// Path estáticos *******************************************************************
+
 app.use(express.static(path.join(__dirname, '/public')));
 
 // Rutas ****************************************************************************
+
 const route_web = require('./routes/routes_web');
 app.use('/', route_web);
 

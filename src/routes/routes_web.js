@@ -8,10 +8,20 @@ const upload = multer({ dest: process.env.PATH_TEMP_FILES });
 const csv = require('fast-csv');
 const fs = require('fs');
 
+/**
+ * Metodo:      
+ * Ruta:        /
+ * Descripcion: Devuelve la plantilla index al cliente.
+ */
 router.get('/', async (req, res) => {
     res.render('index');
 });
 
+/**
+ * Metodo:      loadfile
+ * Ruta:        /loadfile
+ * Descripcion: Recibe el archivo enviado por el usuario, el método renombra el archivo y lo almacena en una carpeta temporal.
+ */
 router.post('/loadfile', upload.single('file'), (req, res) => {
     if (!req.file) {
         const err = 'Debe seleccionar un archivo válido.';
@@ -26,6 +36,11 @@ router.post('/loadfile', upload.single('file'), (req, res) => {
     }
 });
 
+/**
+ * Metodo:      schedule
+ * Ruta:        /schedule
+ * Descripcion: Obtiene la información del archivo cargado para devolverlo al cliente.
+ */
 router.get('/schedule', async (req, res) => {
     const fileRows = [];
     const file_path = path.join(process.env.PATH_TEMP_FILES, 'file_menu.csv');
